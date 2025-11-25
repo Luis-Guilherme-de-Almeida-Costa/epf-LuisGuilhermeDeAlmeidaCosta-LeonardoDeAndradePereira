@@ -14,5 +14,9 @@ class Config:
     STATIC_PATH = os.path.join(BASE_DIR, 'static')
     DATA_PATH = os.path.join(BASE_DIR, 'data')
 
-    # Outras configurações
-    SECRET_KEY = 'sua-chave-secreta-aqui'
+    #Configuração do MySql
+    DB_USER = 'root'
+    DB_PASS = 'eqwefuijqiuofoiujqwfoijqwf-=--=c´çççqwedijiq9wi1ééé'
+    DB_NAME = 'nome_do_banco'
+    DB_HOST = '192.168.1.27'
+    DB_PORT = 3306
