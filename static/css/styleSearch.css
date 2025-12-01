@@ -1,0 +1,128 @@
+.container {
+  display: flex;
+  padding: 40px;
+}
+
+.container-livros {
+  margin-left: 200px;
+}
+
+.search-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#form-search {
+    margin-top: 50px;
+    width: 650px;
+}
+
+.barra-pesquisa {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  border-radius: 100px;
+  padding: 0px 15px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+
+.barra-pesquisa input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 25px;
+  color: #333;
+}
+
+.barra-pesquisa button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #32BBFF;
+  font-size: 18px;
+}
+
+.barra-pesquisa button:hover {
+  color: #1c89c9;
+}
+
+.resultado-titulo {
+    font-size:25px;
+    margin-bottom: 20px;
+}
+
+.livro {
+    display: flex;
+    align-items: flex-start;
+    padding: 35px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    background-color: white;
+    transition: 
+        transform 0.3s ease,
+        background-color 0.3s ease;
+}
+
+.livro:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+  background-color: #f0f0f0;
+}
+
+.livro img {
+    width: 100px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 20px;
+}
+
+.livro-info {
+    max-width: 600px;
+}
+
+.livro-info h3 {
+    margin: 0 0 10px;
+    font-size: 18px;
+}
+
+.livro-info p {
+    margin: 0;
+    color: #555;
+    line-height: 1.5;
+    word-wrap: break-word; 
+    overflow-wrap: break-word;
+    max-width: 100%;
+}
+
+@media screen and (max-width: 1180px) {
+  .livro-info {
+    max-width: 500px;
+  }
+}
+
+@media screen and (max-width: 1080px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+  }
+  .container-livros {
+    margin-left: 0px;
+  }
+}
+
+@media screen and (max-width: 748px) {
+  .livro {
+    width: 675px;
+  }
+
+  .container-scroll {
+    overflow-x: auto;
+  }
+}

@@ -1,0 +1,100 @@
+body{
+    height: 100vh;
+}
+
+h1 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/*
+
+O container possui um tamanho diferente na página login, basta utilizar o crânio e ver o style na classe container.
+
+*/
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.container-cadastro{
+    width: 350px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    background-color: white;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    margin-bottom: 50px;
+}
+
+.container-login{
+    width: 350px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+    background-color: white;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+.container-esqueceu{
+    width: 350px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+    background-color: white;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+.titulo-inputs {
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.titulo-autenticacao{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    font-size: 3vh;
+    height: 70px;
+    margin-bottom: 10px;
+    animation: animacaoDireita 1.25s;
+}
+
+.titulo-autenticacao h1{
+    font-size: 40px;
+}
+
+#cadastroBtn{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#esqueceuInput {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 500px) {
+    .container-login {
+        width: 300px;
+    }
+
+    .container-cadastro {
+        width: 300px;
+    }
+}

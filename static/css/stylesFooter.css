@@ -1,0 +1,107 @@
+.containerFooter {
+      padding: 40px 20px;
+      box-shadow: inset 0 12px 12px -6px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+}
+
+.contatePrincipal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.parte1, .parte2 {
+    font-size: 3.5rem;
+    font-weight: bold;
+}
+
+.parte1 {
+    color: black;
+    margin-right: 10px;
+}
+
+.parte2 {
+    color: #32BBFF;
+}
+
+.principal {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 20px;
+}
+
+.principal div {
+    max-width: 250px;
+}
+
+.principal i {
+    font-size: 2.5rem;
+    color: #32BBFF;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.numero i { 
+    transform: rotate(90deg);
+}
+
+.principal a {
+    color: #404040;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+.principal a:hover {
+    text-decoration: underline;
+}
+
+.copy2 {
+    text-align: center;
+    padding: 30px 0;
+    font-weight: bold;
+    font-size: 1rem;
+    color: #000000;
+    margin-top: 100px;
+}
+
+@media screen and (max-width: 768px) {
+    .parte1, .parte2 {
+        font-size: 2.5rem;
+    }
+
+    .principal {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .copy2 {
+        font-size: 0.9rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .parte1, .parte2 {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .principal i {
+        font-size: 2rem;
+    }
+
+    .principal a {
+        font-size: 1rem;
+    }
+
+    .copy2 {
+        font-size: 0.8rem;
+    }
+}

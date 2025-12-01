@@ -1,0 +1,55 @@
+.containerIU{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 100px;
+}
+
+.container-IU{
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+.inputs-IU {
+    height: 53px;
+    width: 280px;
+    border: none;
+    background-color: #D3D3D3;
+    color:#000000;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 5px;
+    margin-bottom: 15px;
+}
+
+h1 {
+    margin-top: 0px;
+}
+
+.titulo-IU{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 30px;
+    height: 70px;
+    margin: 30px;
+    margin-top: 0px;
+    animation: animacaoDireita 1.25s;
+}
+
+@media (max-width: 600px) {
+    h2 {
+        font-size: 20px;
+    }
+
+    .titulo-IU {
+        font-size: 20px;
+    }
+}

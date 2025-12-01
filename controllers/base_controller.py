@@ -15,16 +15,16 @@ class BaseController:
         self.app.route('/static/<filename:path>', callback=self.serve_static)
 
 
-    def home_redirect(self):
+    def home_redirect(self, **kwargs):
         """Redireciona a rota raiz para /users"""
-        return self.redirect('/users')
+        return self.redirect('/')
 
 
     def helper(self):
         return self.render('helper-final')
 
 
-    def serve_static(self, filename):
+    def serve_static(self, filename, **kwarg):
         """Serve arquivos estáticos da pasta static/"""
         return static_file(filename, root='./static')
 

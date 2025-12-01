@@ -1,0 +1,199 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: url("../Images/Vector.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+#container-home {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 50px;
+}
+
+#form-search {
+    margin-top: 50px;
+    width: 650px;
+    margin-bottom: 50px;
+}
+
+#home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 900px;
+}
+
+#home h1 {
+    text-align:center; 
+    font-size: 60px; 
+    margin-top: 100px; 
+    color: white
+}
+
+#home p {
+    text-align:center; 
+    font-size: 20px; 
+    color: white;
+}
+
+.barra-pesquisa {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  border-radius: 100px;
+  padding: 0px 15px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+
+.barra-pesquisa input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 25px;
+  color: #333;
+}
+
+.barra-pesquisa button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #32BBFF;
+  font-size: 18px;
+}
+
+.barra-pesquisa button:hover {
+  color: #1c89c9;
+}
+
+.catalogo-container {
+  padding: 40px 5%;
+  background: linear-gradient(#f2f2f2, #e4e4e4);
+  min-height: 100vh;
+}
+
+.barra-pesquisa-catalogo {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto 40px auto;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  background-color: white;
+  border: 2px solid #32bbff;
+  border-radius: 25px;
+  padding: 10px 15px;
+}
+
+.barra-pesquisa-catalogo input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 16px;
+  background-color: transparent;
+}
+
+.barra-pesquisa-catalogo i {
+  color: #32bbff;
+  font-size: 18px;
+}
+
+.secao-catalogo {
+  margin-bottom: 40px;
+}
+
+.secao-catalogo h2 {
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
+.scroll-horizontal {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.scroll-horizontal::-webkit-scrollbar {
+  height: 6px;
+}
+
+.scroll-horizontal::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 10px;
+}
+
+.item-catalogo {
+  flex: 0 0 auto;
+  width: 200px;
+  height: 335px;
+  border-radius: 20px;
+  padding: 10px;
+  text-align: center;
+  scroll-snap-align: start;
+  transition: transform 0.3s ease,
+        background-color 0.3s ease;
+}
+
+.item-catalogo:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+  background-color: #c0c0c0;
+}
+
+
+.imagem {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.imagem img {
+  width: 180px;
+  height: 240px;
+  border-radius: 20px;
+}
+
+@media (max-width: 700px) {
+    #home {
+        height: 700px;
+    }
+
+    #home h1 {
+        font-size: 50px;
+    }
+}
+
+@media (max-width: 676px) {
+  .barra-pesquisa {
+    width: 100%;
+  }
+
+  #form-search {
+    width: 300px;
+  }
+}
+
+@media (max-width: 572px) {
+
+    #home h1 {
+        font-size: 40px;
+    }
+}
+
+.barra-pesquisa-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

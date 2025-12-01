@@ -1,0 +1,113 @@
+.container {
+  max-width: 900px;
+  margin-top: 50px;
+  padding: 30px;
+  border-radius: 8px;
+  overflow-x: auto;
+  display: none;
+}
+
+.container-none {
+  max-width: 900px;
+  margin-top: 50px;
+  padding: 30px;
+  border-radius: 8px;
+  overflow-x: auto;
+  display: flex;
+}
+
+.titulo-none {
+  margin-left: 0px;
+}
+
+.container-content {
+  margin-left: 50px;
+}
+
+.capa {
+  display: flex;
+  align-items: center;
+}
+
+.capa-img {
+  width: 210px;
+  height: 280px;
+  border-radius: 20px;
+}
+
+.capa img {
+  width: 210px;
+  height: 280px;
+  border-radius: 20px;
+}
+
+.capa h1 {
+  margin-left: 20px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.tags {
+  margin-top: 20px;
+}
+
+.tag {
+  display: inline-block;
+  background: #ccc;
+  color: #333;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.buttons {
+  margin-top: 20px;
+}
+
+.buttons button {
+  background-color: #22a6f2;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 5px;
+  font-size: 15px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.buttons button:hover {
+  background-color: #198fdb;
+}
+
+.icon-button {
+  background-color: #ccc;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+@media (max-width: 762px) {
+  .container-none {
+    display: none;
+  }
+
+  .container {
+    display: block;
+  }
+}
