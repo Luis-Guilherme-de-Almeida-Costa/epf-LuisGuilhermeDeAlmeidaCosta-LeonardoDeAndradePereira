@@ -24,7 +24,7 @@ class PessoasModel:
     def get_all(self, db):
         try:
             cursor = db.cursor(dictionary=True)
-            cursor.execute("SELECT id, name, email, cpf, situacao, senha FROM pessoas")
+            cursor.execute("SELECT id_pessoa, name, email, cpf, situacao, senha_hash FROM pessoas")
             return cursor.fetchall()
         except Exception as e:
             print(f"Erro ao buscar pessoas: {e}")
@@ -34,7 +34,7 @@ class PessoasModel:
     def get_by_id(self, db, pessoa_id):
         try:
             cursor = db.cursor(dictionary=True)
-            cursor.execute("SELECT id, name, email, cpf, situacao, senha FROM pessoas WHERE id = %s", (pessoa_id,))
+            cursor.execute("SELECT id_pessoa, name, email, cpf, situacao, senha_hash FROM pessoas WHERE id = %s", (pessoa_id,))
             return cursor.fetchone()
         except Exception as e:
             print(f"Erro ao buscar pessoa com ID {pessoa_id}: {e}")
@@ -43,10 +43,10 @@ class PessoasModel:
     def get_by_email(self, db, email):
         try:
             cursor = db.cursor(dictionary=True)
-            cursor.execute("SELECT id, nome, email, cpf, situacao, senha FROM pessoas WHERE email = %s", (email,))
+            cursor.execute("SELECT id_pessoa, nome, email, cpf, situacao, senha_hash FROM pessoas WHERE email = %s", (email,))
             return cursor.fetchone()
         except Exception as e:
-            print(f"Erro ao buscar pessoa com ID {email}: {e}")
+            print(f"Erro ao buscar pessoa com Email {email}: {e}")
             return None
 
 
@@ -71,8 +71,8 @@ class PessoasModel:
             cursor = db.cursor()
             sql = """
                 UPDATE pessoas
-                SET name = %s, email = %s, cpf = %s, situacao = %s, senha = %s
-                WHERE id = %s
+                SET name = %s, email = %s, cpf = %s, situacao = %s, senha_hash = %s
+                WHERE id_pessoa = %s
             """
             cursor.execute(sql, (pessoa.name, pessoa.email, pessoa.cpf, pessoa.situacao, pessoa.senha, pessoa.id))
             db.commit()
@@ -83,13 +83,13 @@ class PessoasModel:
             return False
 
 
-    def delete_pessoa(self, db, pessoa_id):
+    def delete_pessoa(self, db, email):
         try:
             cursor = db.cursor()
-            cursor.execute("DELETE FROM pessoas WHERE id = %s", (pessoa_id,))
+            cursor.execute("DELETE FROM pessoas WHERE email = %s", (email,))
             db.commit()
             return True
         except Exception as e:
             db.rollback()
-            print(f"Erro ao deletar pessoa ID {pessoa_id}: {e}")
+            print(f"Erro ao deletar pessoa EMAIL {email}: {e}")
             return False

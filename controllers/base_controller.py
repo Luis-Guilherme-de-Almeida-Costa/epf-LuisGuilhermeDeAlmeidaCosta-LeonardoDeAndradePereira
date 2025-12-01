@@ -24,7 +24,7 @@ class BaseController:
         return self.render('helper-final')
 
 
-    def serve_static(self, filename, **kwarg):
+    def serve_static(self, filename, **kwargs):
         """Serve arquivos estáticos da pasta static/"""
         return static_file(filename, root='./static')
 

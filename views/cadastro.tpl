@@ -13,19 +13,21 @@
     <form class="container-cadastro" id="formCadastro" action="{{action}}" method="POST">
         
         <label for="nomeInput" class="titulo-inputs">Nome</label>
-        <input type="text" class="inputs" id="nomeInput" name="nome" required>
+        <input type="text" class="inputs" id="nomeInput" name="nome" value="{{ data.get('nome', '') if data else '' }}" required>
 
         <label for="cpfInput" class="titulo-inputs">CPF</label>
-        <input type="text" class="inputs" id="cpfInput" name="cpf" required>
+        <input type="text" class="inputs" id="cpfInput" name="cpf" value="{{ data.get('cpf', '') if data else '' }}" required>
 
         <label for="emailInput" class="titulo-inputs">Email</label>
-        <input type="email" class="inputs" id="emailInput" name="email" required>
+        <input type="email" class="inputs" id="emailInput" name="email" value="{{ data.get('email', '') if data else '' }}" required>
 
         <label for="senhaInput" class="titulo-inputs">Senha</label>
         <input type="password" class="inputs" id="senhaInput" name="senha" required>
 
         <label for="confirmarSenhaInput" class="titulo-inputs">Confirmar Senha</label>
         <input type="password" class="inputs" id="confirmarSenhaInput" name="confirmarSenha" required>
+
+        % include('includes/messagesError.tpl')
 
         <button type="submit" class="botao" id="cadastroBtn">CADASTRAR</button>
         <a class="underline link" style="margin-bottom: 10px;" href="/login/index">Já possuo conta!</a>

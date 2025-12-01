@@ -1,7 +1,7 @@
 </head>
 <header>
     <a class="logo" href="/">
-        <img src="/assets/Images/logo.png" alt="">
+        <img src="/static/Images/logo.png" alt="">
     </a>
 
 % if path:
@@ -104,13 +104,13 @@
                     % end
                 % end
                 <li class="divider none"></li>
-                <li><a href="/login/index"><i class="fa-solid fa-user" style="margin-right: 10px;"></i>Entrar</a></li>
+                <li><a href="/pessoas/login"><i class="fa-solid fa-user" style="margin-right: 10px;"></i>Entrar</a></li>
                 <li class="divider"></li>
-                <li><a href="/register/index"><i class="fa-solid fa-power-off" style="margin-right: 10px;"></i>Cadastrar</a></li>
+                <li><a href="/pessoas/add"><i class="fa-solid fa-power-off" style="margin-right: 10px;"></i>Cadastrar</a></li>
             </ul>
         </li>
     </ul>
-    <a href="/login/index" id="sign-in" class="link">Entrar</a>
-    <a href="/register/index" id="sign-up" class="link">Cadastrar</a>
+    <a href="/pessoas/login" id="sign-in" class="link">Entrar</a>
+    <a href="/pessoas/add" id="sign-up" class="link">Cadastrar</a>
 % end
 </header>

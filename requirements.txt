@@ -1,2 +1,6 @@
 bottle
 pylint
+mysql-connector-python
+bcrypt
+beaker
+validators
