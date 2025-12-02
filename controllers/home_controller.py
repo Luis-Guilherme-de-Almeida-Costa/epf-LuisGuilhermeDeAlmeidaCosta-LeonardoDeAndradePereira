@@ -3,8 +3,8 @@ from .base_controller import BaseController
 from services.pessoas_service import PessoasService
 
 class HomeController(BaseController):
-    def _init_(self, app):
-        super()._init_(app)
+    def __init__(self, app):
+        super().__init__(app)
 
         self.setup_routes()
         self.pessoas_service = PessoasService()
