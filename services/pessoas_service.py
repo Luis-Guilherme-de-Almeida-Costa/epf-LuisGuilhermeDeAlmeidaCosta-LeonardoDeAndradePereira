@@ -1,4 +1,4 @@
-from bottle import request
+from bottle import request, redirect
 from models.pessoas import PessoasModel, Pessoas
 import bcrypt
 from validators import email as validate_email, length, ValidationError
@@ -9,6 +9,8 @@ class PessoasService:
     def get_all(self, db):
         return self.pessoa_model.get_all(db)
     
+    def get_by_id(self, db, pessoa_id):
+        return self.pessoa_model.get_by_id(db, pessoa_id)
 
 
     def validate_fields(self, email, senha):
@@ -88,7 +90,75 @@ class PessoasService:
              return {'success': False, 'error': {'geral': 'Erro ao salvar no banco de dados.'}}
 
         return {'success': True, 'id': novo_id}
+    
+    def edit(self, db, pessoa_id):
+        try:
+            nome = request.forms.get('nome', '').strip()
+            email = request.forms.get('email', '').strip()
+            cpf = request.forms.get('cpf', '').strip()
+            
 
-    def delete_user(self, db, pessoa_id):
-        self.pessoa_model.delete_user(db, pessoa_id)
-        return {'success': True}
+            current_data = {
+                'nome': nome,
+                'email': email,
+                'cpf': cpf
+            }
+
+            errors = {}
+
+            if not nome:
+                errors['nome'] = "O nome não pode estar vazio."
+            if not email:
+                errors['email'] = "O email não pode estar vazio."
+            if not cpf:
+                errors['cpf'] = "O CPF não pode estar vazio."
+
+            existing = self.pessoa_model.get_by_email(db, email)
+            
+            if existing and existing['id_pessoa'] != pessoa_id:
+                errors['email'] = "Este email já está cadastrado em outra conta."
+
+            if errors:
+                return {
+                    "success": False,
+                    "errors": errors,
+                    "data": current_data
+                }
+
+            pessoa = self.pessoa_model.get_by_id(db, pessoa_id)
+            if not pessoa:
+                return {
+                    "success": False,
+                    "errors": {"geral": "Usuário não encontrado."},
+                    "data": current_data
+                }
+
+            pessoa['nome'] = nome
+            pessoa['email'] = email
+            pessoa['cpf'] = cpf
+
+            ok = self.pessoa_model.update_pessoa(db, pessoa, pessoa_id)
+
+            if not ok:
+                return {
+                    "success": False,
+                    "errors": {"geral": "Erro ao atualizar usuário no banco de dados."},
+                    "data": current_data
+                }
+
+            return {
+                "success": {"Sucesso": "Dados atualizados com sucesso!"},
+            }
+
+        except Exception as e:
+            print("ERRO EDIT SERVICE:", e)
+            return {
+                "success": False,
+                "errors": {"geral": "Erro interno ao tentar atualizar o usuário."},
+                "data": current_data
+            }
+
+
+    def logout(self):
+        session = request.environ.get('beaker.session')
+        session.delete()
