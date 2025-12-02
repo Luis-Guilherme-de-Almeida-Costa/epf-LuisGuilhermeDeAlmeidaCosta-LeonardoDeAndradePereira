@@ -44,6 +44,64 @@ h1 {
     animation: animacaoDireita 1.25s;
 }
 
+
+.file-upload-wrapper {
+    position: relative; 
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border: 2px solid #ccc; 
+    border-radius: 8px;
+    margin-bottom: 20px;
+    overflow: hidden; 
+    height: 50px; 
+}
+
+
+.file-upload-wrapper .file-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0; 
+    cursor: pointer;
+    z-index: 20; 
+}
+
+
+.file-upload-button {
+    background-color: #007bff; 
+    color: white;
+    padding: 0 15px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    white-space: nowrap;
+    font-size: 0.9rem;
+    font-weight: bold;
+    border-right: 2px solid #ccc; 
+    transition: background-color 0.2s;
+    z-index: 10;
+}
+
+.file-upload-button:hover {
+    background-color: #0056b3; 
+}
+
+
+.file-upload-filename {
+    flex-grow: 1; 
+    padding: 0 10px;
+    color: #666; 
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; 
+    font-size: 0.9rem;
+    z-index: 10;
+}
+
 @media (max-width: 600px) {
     h2 {
         font-size: 20px;

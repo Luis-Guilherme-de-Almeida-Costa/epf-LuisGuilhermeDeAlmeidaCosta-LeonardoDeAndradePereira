@@ -1,12 +1,12 @@
 class Pessoas:
-    def _init_(self, name, email, cpf, situacao, senha):
+    def __init__(self, name, email, cpf, situacao, senha):
         self.name = name
         self.email = email
         self.cpf = cpf
         self.situacao = situacao
         self.senha = senha
 
-    def _repr_(self):
+    def __repr__(self):
         return f"<Pessoa {self.name} ({self.email})>"
 
     def to_dict(self):

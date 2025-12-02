@@ -16,7 +16,7 @@ class Config:
 
     #Configuração do MySql
     DB_USER = 'root'
-    DB_PASS = ''
+    DB_PASS = 'eqwefuijqiuofoiujqwfoijqwf-=--=c´çççqwedijiq9wi1ééé'
     DB_NAME = 'Cinema'
-    DB_HOST = '127.0.0.1'
+    DB_HOST = '192.168.1.27'
     DB_PORT = 3306
