@@ -28,8 +28,6 @@ UPLOAD_DIR_VIDEOS = 'static/uploads/videos/'
 os.makedirs(UPLOAD_DIR_CAPAS, exist_ok=True)
 os.makedirs(UPLOAD_DIR_VIDEOS, exist_ok=True)
 
-
-class FilmeController(BaseController):
 class FilmeController(BaseController):
     def __init__(self, app):
         super().__init__(app)
@@ -79,16 +77,6 @@ class FilmeController(BaseController):
                                 action = "/filmes/store", 
                                 user=pessoa,
                                 data=form_data) //passar aqui depois
-
-            return self.render('criaFilmes', 
-                                path="logado", 
-                                errors=errors, 
-                                success=success_message, 
-                                pathStatus= 'LI', 
-                                action = "/filmes/store", 
-                                user=pessoa,
-                                data=form_data) //passar aqui depois
-
         else:
 
             errors = {}

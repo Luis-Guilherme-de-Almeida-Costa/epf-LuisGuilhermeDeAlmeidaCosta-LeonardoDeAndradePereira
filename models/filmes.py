@@ -14,12 +14,7 @@ class FilmesModel:
                  id: Optional[int] = None,
                  created_at: Optional[datetime] = None,
                  updated_at: Optional[datetime] = None):
-        """
-        Inicializa o objeto Filme.
-        
-        data_exibicao: Deve ser um objeto datetime.datetime ou None.
-        status: 'ATIVO' ou 'AGENDADO'.
-        """
+    
         self.id = id
         self.titulo = titulo
         self.categoria = categoria
@@ -35,7 +30,7 @@ class FilmesModel:
         return f"<Filme {self.titulo} (ID: {self.id or 'Novo'}) - Status: {self.status}>"
 
     def to_dict(self):
-        """Converte o objeto Filme para um dicionário."""
+
         return {
             'id': self.id,
             'titulo': self.titulo,
@@ -50,20 +45,14 @@ class FilmesModel:
         }
 
 
-# Classe de Interação com o Banco de Dados (CRUD)
+
 class FilmesModel:
     
     def __init__(self):
         self.table_name = 'filmes'
 
     def insert_filme(self, db, filme: Filmes):
-        """
-        Insere um novo filme no banco de dados.
-
-        :param db: Conexão ativa com o banco de dados.
-        :param filme: Objeto Filmes com os dados a serem inseridos.
-        :return: ID do filme inserido ou None em caso de erro.
-        """
+   
         try:
             cursor = db.cursor()
             sql = f"""
@@ -71,8 +60,7 @@ class FilmesModel:
                 (titulo, categoria, data_exibicao, status, capa_path, video_path, id_usuario) 
                 VALUES (%s, %s, %s, %s, %s, %s, %s)
             """
-            
-            # Formata a data de exibição para o formato SQL, se existir
+
             data_exibicao_db = filme.data_exibicao.strftime('%Y-%m-%d %H:%M:%S') if filme.data_exibicao else None
 
             cursor.execute(sql, (
@@ -93,10 +81,10 @@ class FilmesModel:
             return None
 
     def get_all(self, db):
-        """Busca todos os filmes no banco de dados."""
+
         try:
             cursor = db.cursor(dictionary=True)
-            # Seleciona todos os campos, incluindo os caminhos dos arquivos
+          
             cursor.execute(f"SELECT * FROM {self.table_name}")
             return cursor.fetchall()
         except Exception as e:
@@ -104,7 +92,7 @@ class FilmesModel:
             return []
 
     def get_by_id(self, db, filme_id):
-        """Busca um filme pelo seu ID."""
+
         try:
             cursor = db.cursor(dictionary=True)
             cursor.execute(f"SELECT * FROM {self.table_name} WHERE id = %s", (filme_id,))
