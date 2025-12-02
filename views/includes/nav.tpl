@@ -46,7 +46,7 @@
         <ul class="user-nav">
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle main userf">
-                    Olá, {{ user[0].upper() + user[1:] }} ▼
+                    Olá, {{ user['nome'][0].upper() + user['nome'][1:] }} ▼
                 </a>
                 <a href="#" class="dropdown-toggle none nouserf">
                     <i class="fa-solid fa-bars" style="font-size: 28px;"></i>

@@ -14,7 +14,7 @@ class FlashManager:
 
         session.save()
         
-        return errors, form_data
+        return errors, success_message, form_data
         
     def set_flash_errors_and_data(self, errors, data):
         session = request.environ.get('beaker.session')

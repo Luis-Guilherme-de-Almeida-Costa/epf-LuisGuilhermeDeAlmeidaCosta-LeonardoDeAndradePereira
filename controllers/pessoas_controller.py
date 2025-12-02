@@ -13,16 +13,15 @@ class PessoasController(BaseController):
     def setup_routes(self):
         self.app.route('/pessoas/add', method=['GET', 'POST'], callback=self.add_pessoa)
         self.app.route('/pessoas/login', method=['GET', 'POST'], callback=self.login_pessoa)
+        self.app.route('/pessoas/edit', method=['GET', 'POST'], callback=self.edit_pessoa)
+        self.app.route('/pessoas/logout', method=['GET', 'POST'], callback=self.delete_pessoa)
 
 
     def add_pessoa(self, db):
-
-
         flash = FlashManager()
 
         if request.method == 'GET':
-            
-            errors, form_data = flash.get_flash_messages()
+            errors, success_message, form_data = flash.get_flash_messages()
             
             return self.render(
                 'cadastro', 
@@ -55,7 +54,7 @@ class PessoasController(BaseController):
         
         if request.method == 'GET':
             
-            errors, form_data = flash.get_flash_messages()
+            errors, success_message, form_data = flash.get_flash_messages()
             
             return self.render(
                 'login', 
@@ -81,17 +80,43 @@ class PessoasController(BaseController):
                 flash.set_flash_errors_and_data(errors, current_data)
                 return redirect('/pessoas/login')
     
-    def edit_pessoa(self, pessoa_id):
-        pessoa = self.pessoas_service.get_by_id(pessoa_id)
-        if not pessoa:
-            return "Pessoa não encontrada"
+    def edit_pessoa(self, db):
+        flash = FlashManager()
+
+        session = request.environ.get('beaker.session')
+
+        id_pessoa = session.get('user_id')
 
         if request.method == 'GET':
-            return self.render('pessoa_form', pessoa=pessoa, action=f"/pessoas/edit/{pessoa_id}")
-        else:
-            self.pessoas_service.edit_pessoa(pessoa)
-            self.redirect('/pessoas')
+            errors, success_message, form_data = flash.get_flash_messages()
 
-    def delete_pessoa(self, pessoa_id):
-        self.pessoas_service.delete_pessoa(pessoa_id)
-        self.redirect('/pessoas')
+            pessoa = self.pessoas_service.get_by_id(db, id_pessoa)
+            if not pessoa:
+                flash.set_flash_errors_and_data({"geral": "Usuário não encontrado."}, {})
+                return redirect('/pessoas/logout')
+
+            return self.render(
+                'editarPerfil',              
+                action="/pessoas/edit",
+                errors=errors,
+                success=success_message,
+                path="logado",
+                user=pessoa,
+                pathStatus= 'LI'
+            )
+
+        else:
+            current_data = {}
+            result = self.pessoas_service.edit(db, id_pessoa)
+
+            if result["success"]:
+                flash.set_flash_success(["Usuário atualizado com sucesso!"])
+                return redirect("/pessoas/edit")
+            else:
+                errors = result.get("errors", {"geral": "Erro ao atualizar usuário."})
+                flash.set_flash_errors_and_data(errors, current_data)
+                return redirect("/pessoas/edit")
+
+    def delete_pessoa(self, db):
+        self.pessoas_service.logout()
+        return redirect('/')
