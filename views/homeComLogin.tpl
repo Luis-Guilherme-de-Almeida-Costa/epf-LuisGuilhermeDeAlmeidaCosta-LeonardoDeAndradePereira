@@ -78,6 +78,30 @@
 
         </div>
     </div>
+
+    <!-- SUA BIBLIOTECA -->
+    <div class="secao-catalogo">
+        <h1>Sua Biblioteca</h1>
+        <div class="scroll-horizontal">
+
+            % if favoritos and len(favoritos) > 0:
+                % for filme in favoritos:
+                    <a href="/home/leitura/{{ filme.id_filme }}" class="link">
+                        <div class="item-catalogo">
+                            <div class="imagem">
+                                <img src="http://localhost:3002/filmes/{{ filme.id_filme }}/capa" alt="Capa do filme" />
+                            </div>
+                            <h2>{{ filme.titulo }}</h2>
+                        </div>
+                    </a>
+                % end
+            % else:
+                <p>Nenhum filme encontrado.</p>
+            % end
+
+        </div>
+    </div>
+
 </section>
 
 % include('includes/footerComContato.tpl')

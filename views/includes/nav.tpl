@@ -76,9 +76,9 @@
                         % end
                     % end
                     <li class="divider none"></li>
-                    <li><a href="/perfil/index"><i class="fa-solid fa-user" style="margin-right: 10px;"></i>Perfil</a></li>
+                    <li><a href="/pessoas/edit"><i class="fa-solid fa-user" style="margin-right: 10px;"></i>Perfil</a></li>
                     <li class="divider"></li>
-                    <li><a href="/login/logout"><i class="fa-solid fa-power-off" style="margin-right: 10px;"></i>Sair</a></li>
+                    <li><a href="/pessoas/logout"><i class="fa-solid fa-power-off" style="margin-right: 10px;"></i>Sair</a></li>
                 </ul>
             </li>
         </ul>

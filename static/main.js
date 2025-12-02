@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 import './modules/nav.js';
+import './modules/atualizarNomePasta.js'
 /*
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';

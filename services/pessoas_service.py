@@ -12,7 +12,9 @@ class PessoasService:
     def get_by_id(self, db, pessoa_id):
         return self.pessoa_model.get_by_id(db, pessoa_id)
 
-
+    def get_administrador_by_id(self, db, pessoa_id):
+        return self.pessoa_model.get_administrador_by_id(db, pessoa_id)
+    
     def validate_fields(self, email, senha):
         errors = {}
 
