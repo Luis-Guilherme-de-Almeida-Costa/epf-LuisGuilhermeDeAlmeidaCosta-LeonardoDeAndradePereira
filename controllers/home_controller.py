@@ -17,7 +17,9 @@ class HomeController(BaseController):
         return self.render('homeSemLogin', path = "naoLogado", pathStatus = 'I', user=False)
     
     def index_home(self, db):
+        
+
         if request.method == 'GET':
-            return self.render('homeComLogin', path = "naoLogado", pathStatus = 'I', user=False)
+            return self.render('homeComLogin', path = "logado", pathStatus = 'L', livros = response.data.livros, acao = acao.data.livros, favoritos = favoritoResponse.data.favoritos)
         else:
             return

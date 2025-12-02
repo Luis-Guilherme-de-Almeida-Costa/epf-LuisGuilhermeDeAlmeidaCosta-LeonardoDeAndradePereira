@@ -2,27 +2,30 @@ from datetime import datetime
 from typing import Optional
 
 # Classe de Entidade/Objeto de Dados para um Filme
-class FilmesModel:
+class Filmes:
     def __init__(self, 
                  titulo: str, 
                  categoria: str, 
+                 sinopse: str,
+                 diretor: str,
                  capa_path: str, 
                  video_path: str, 
-                 id_usuario: int,
+                 id_administrador: int,
                  data_exibicao: Optional[datetime] = None, 
                  status: str = 'ATIVO',
-                 id: Optional[int] = None,
                  created_at: Optional[datetime] = None,
                  updated_at: Optional[datetime] = None):
     
         self.id = id
         self.titulo = titulo
         self.categoria = categoria
+        self.sinopse = sinopse 
+        self.diretor = diretor
         self.data_exibicao = data_exibicao
         self.status = status
         self.capa_path = capa_path
         self.video_path = video_path
-        self.id_usuario = id_usuario
+        self.id_administrador = id_administrador
         self.created_at = created_at
         self.updated_at = updated_at
 
@@ -39,7 +42,7 @@ class FilmesModel:
             'status': self.status,
             'capa_path': self.capa_path,
             'video_path': self.video_path,
-            'id_usuario': self.id_usuario,
+            'id_administrador': self.id_administrador,
             'created_at': self.created_at,
             'updated_at': self.updated_at
         }
@@ -57,20 +60,22 @@ class FilmesModel:
             cursor = db.cursor()
             sql = f"""
                 INSERT INTO {self.table_name} 
-                (titulo, categoria, data_exibicao, status, capa_path, video_path, id_usuario) 
-                VALUES (%s, %s, %s, %s, %s, %s, %s)
+                (titulo, categoria, sinopse, diretor, data_exibicao, status, capa_path, video_path, id_administrador) 
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
             """
 
             data_exibicao_db = filme.data_exibicao.strftime('%Y-%m-%d %H:%M:%S') if filme.data_exibicao else None
-
+            
             cursor.execute(sql, (
                 filme.titulo,
                 filme.categoria,
+                filme.sinopse,
+                filme.diretor,
                 data_exibicao_db,
                 filme.status,
                 filme.capa_path,
                 filme.video_path,
-                filme.id_usuario
+                filme.id_administrador
             ))
             
             db.commit()
@@ -78,7 +83,7 @@ class FilmesModel:
         except Exception as e:
             db.rollback()
             print(f"Erro ao inserir novo filme: {e}")
-            return None
+            return e
 
     def get_all(self, db):
 

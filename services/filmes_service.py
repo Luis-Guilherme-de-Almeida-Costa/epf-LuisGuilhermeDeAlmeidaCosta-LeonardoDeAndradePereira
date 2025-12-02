@@ -1,164 +1,98 @@
-from bottle import request, redirect
-from models.pessoas import PessoasModel, Pessoas
-import bcrypt
-from validators import email as validate_email, length, ValidationError
-class PessoasService:
+from models.filmes import FilmesModel, Filmes
+from typing import Dict, Any, Optional
+from datetime import datetime
+import os
+
+from validators import length, ValidationError 
+
+
+class FilmesService:
     def __init__(self):
-        self.pessoa_model = PessoasModel()
 
-    def get_all(self, db):
-        return self.pessoa_model.get_all(db)
-    
-    def get_by_id(self, db, pessoa_id):
-        return self.pessoa_model.get_by_id(db, pessoa_id)
+        self.filmes_model = FilmesModel() 
 
+    def get_all(self, db) -> list:
+        try:
+            return self.filmes_model.get_all(db)
+        except Exception as e:
+            print(f"Erro no Service ao buscar todos os filmes: {e}")
+            return []
 
-    def validate_fields(self, email, senha):
+    def get_by_id(self, db, filme_id: int) -> Optional[Dict[str, Any]]:
+        try:
+            return self.filmes_model.get_by_id(db, filme_id)
+        except Exception as e:
+            print(f"Erro no Service ao buscar filme por ID {filme_id}: {e}")
+            return None
+
+    def validate_filme_data(self, titulo: str, categoria: str, diretor: str, sinopse: str) -> Dict[str, str]:
         errors = {}
 
-        try:
-            if not validate_email(email):
-                errors['email'] = "Email inválido."
-        except ValidationError:
-            errors['email'] = "Email em formato inválido."
+        if not titulo or len(titulo.strip()) < 3:
+            errors['titulo'] = "O título é obrigatório e deve ter no mínimo 3 caracteres."
+            
+        if not categoria or categoria == 'Selecione uma categoria':
+            errors['categoria'] = "A categoria é obrigatória."
+            
+        if not diretor or len(diretor.strip()) < 3:
+            errors['diretor'] = "O nome do diretor é obrigatório."
 
+        if not sinopse or len(sinopse.strip()) < 10:
+             errors['sinopse'] = "A sinopse é obrigatória e deve ter no mínimo 10 caracteres."
+        
         try:
-            length(senha, min=6)
+            length(sinopse, max=500)
         except ValidationError:
-            errors['senha'] = "Senha deve ter pelo menos 6 caracteres."
-
+             errors['sinopse'] = "A sinopse não pode exceder 500 caracteres."
+             
         return errors
 
-    def login(self, db):
-        try:
-            email = request.forms.get('email')
-            senha = request.forms.get('senha')
-
-            errors = self.validate_fields(email, senha)
-
-            if errors:
-                return {'success': False, 'errors': errors}
-
-            user = self.pessoa_model.get_by_email(db, email)
-            if not user:
-                return {'success': False, 'errors': {'email': 'Usuário não cadastrado.'}}
-
-            if not bcrypt.checkpw(senha.encode('utf-8'), user['senha_hash'].encode('utf-8')):
-                return {'success': False, 'errors': {'senha': 'Senha incorreta.'}}
-
-            session = request.environ.get('beaker.session')
-            session['logged_in'] = True
-            session['user_id'] = user['id_pessoa']
-            session['user_name'] = user['nome']
-            session['user_email'] = user['email']
-            session.save()
-
-            return {'success': True}
-
-        except Exception as e:
-            print(f"Erro no login: {e}")
-            return {'success': False, 'errors': {'internal': 'Erro inesperado. Tente novamente.'}}
-
-    def save(self, db):
-        name = request.forms.get('nome')
-        email = request.forms.get('email')
-        cpf = request.forms.get('cpf')
-        situacao = "A"
-        senha = request.forms.get('senha')
-        confirmarSenha = request.forms.get('confirmarSenha')
-        
-        errors = {}
-
-        errors.update(self.validate_fields(email, senha))
-        
-        if senha != confirmarSenha:
-            errors['confirmarSenha'] = 'As senhas não coincidem!' 
-
-        exists = self.pessoa_model.get_by_email(db, email)
-        if exists:
-            errors['email'] = 'Email já cadastrado!' 
+    def add_filme(self, db, filme_data):
+        errors = self.validate_filme_data(filme_data.get('titulo', ''),filme_data.get('categoria', ''), filme_data.get('diretor', ''), filme_data.get('sinopse', ''))
 
         if errors:
-            return {'success': False, 'error': errors} 
+                return {'success': False, 'errors': errors}
         
-        senha_hash = bcrypt.hashpw(senha.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        filme_entity = Filmes(
+            titulo=filme_data.get('titulo', ''),
+            categoria=filme_data.get('categoria', ''),
+            sinopse=filme_data.get('sinopse', ''),
+            diretor=filme_data.get('diretor', ''),
+            capa_path=filme_data.get('capa_path', ''),
+            video_path=filme_data.get('video_path', ''),
+            id_administrador=filme_data.get('id_administrador'),
+            data_exibicao=filme_data.get('data_exibicao'), 
+            status=filme_data.get('status')
+        )
 
-        pessoa = Pessoas(name=name, email=email, cpf=cpf, situacao=situacao, senha=senha_hash)
-        novo_id = self.pessoa_model.add_pessoa(db, pessoa)
-        
-        if novo_id is None:
-             return {'success': False, 'error': {'geral': 'Erro ao salvar no banco de dados.'}}
-
-        return {'success': True, 'id': novo_id}
-    
-    def edit(self, db, pessoa_id):
         try:
-            nome = request.forms.get('nome', '').strip()
-            email = request.forms.get('email', '').strip()
-            cpf = request.forms.get('cpf', '').strip()
+            novo_id = self.filmes_model.insert_filme(db, filme_entity)
             
-
-            current_data = {
-                'nome': nome,
-                'email': email,
-                'cpf': cpf
-            }
-
-            errors = {}
-
-            if not nome:
-                errors['nome'] = "O nome não pode estar vazio."
-            if not email:
-                errors['email'] = "O email não pode estar vazio."
-            if not cpf:
-                errors['cpf'] = "O CPF não pode estar vazio."
-
-            existing = self.pessoa_model.get_by_email(db, email)
-            
-            if existing and existing['id_pessoa'] != pessoa_id:
-                errors['email'] = "Este email já está cadastrado em outra conta."
-
-            if errors:
-                return {
-                    "success": False,
-                    "errors": errors,
-                    "data": current_data
-                }
-
-            pessoa = self.pessoa_model.get_by_id(db, pessoa_id)
-            if not pessoa:
-                return {
-                    "success": False,
-                    "errors": {"geral": "Usuário não encontrado."},
-                    "data": current_data
-                }
-
-            pessoa['nome'] = nome
-            pessoa['email'] = email
-            pessoa['cpf'] = cpf
-
-            ok = self.pessoa_model.update_pessoa(db, pessoa, pessoa_id)
-
-            if not ok:
-                return {
-                    "success": False,
-                    "errors": {"geral": "Erro ao atualizar usuário no banco de dados."},
-                    "data": current_data
-                }
-
-            return {
-                "success": {"Sucesso": "Dados atualizados com sucesso!"},
-            }
+            return {'success': True, novo_id: novo_id}
 
         except Exception as e:
-            print("ERRO EDIT SERVICE:", e)
+            print(f"Erro no Service ao adicionar filme no banco: {e}")
             return {
-                "success": False,
-                "errors": {"geral": "Erro interno ao tentar atualizar o usuário."},
-                "data": current_data
+                'success': False, 
+                'errors': {'geral': 'Erro interno ao salvar no banco de dados. Verifique o log do servidor.'}
             }
 
+    def delete_filme(self, db, filme_id: int, capa_path: str, video_path: str) -> bool:
+        try:
+            ok = self.filmes_model.delete_filme(db, filme_id)
+        except Exception as e:
+            print(f"Erro no Service ao deletar filme ID {filme_id} do BD: {e}")
+            return False
+        
+        if ok:
+            self._remove_file(capa_path)
+            self._remove_file(video_path)
+            
+        return ok
 
-    def logout(self):
-        session = request.environ.get('beaker.session')
-        session.delete()
+    def _remove_file(self, file_path: Optional[str]):
+        if file_path and os.path.exists(file_path):
+            try:
+                os.remove(file_path)
+            except Exception as e:
+                print(f"Aviso: Não foi possível remover o arquivo {file_path}. Erro: {e}")

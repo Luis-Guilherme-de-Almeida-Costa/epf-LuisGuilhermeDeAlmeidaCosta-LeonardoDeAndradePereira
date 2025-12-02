@@ -49,6 +49,15 @@ class PessoasModel:
             print(f"Erro ao buscar pessoa com Email {email}: {e}")
             return None
 
+    def get_administrador_by_id(self, db, id_pessoa):
+        try: 
+            cursor = db.cursor(dictionary=True)
+            cursor.execute("SELECT id_pessoa, id_administrador FROM administrador WHERE id_pessoa = %s", (id_pessoa,))
+            return cursor.fetchone()
+        except Exception as e:
+            print(f"Erro ao buscar pessoa com ID {id_pessoa}: {e}")
+            return None
+
 
     def add_pessoa(self, db, pessoa: Pessoas):
         try:

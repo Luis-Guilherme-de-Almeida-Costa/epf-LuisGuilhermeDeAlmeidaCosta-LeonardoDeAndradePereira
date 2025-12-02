@@ -1,23 +1,9 @@
 import os
 import uuid # Para gerar nomes de arquivos únicos
 from datetime import datetime
-import os
-import uuid # Para gerar nomes de arquivos únicos
-from datetime import datetime
 from .base_controller import BaseController
 from bottle import request, redirect, Bottle
-from bottle import request, redirect, Bottle
 from services.pessoas_service import PessoasService
-from services.filmes_service import FilmesService
-from utils.flash import FlashManager
-
-
-UPLOAD_DIR_CAPAS = 'static/uploads/capas/'
-UPLOAD_DIR_VIDEOS = 'static/uploads/videos/'
-
-os.makedirs(UPLOAD_DIR_CAPAS, exist_ok=True)
-os.makedirs(UPLOAD_DIR_VIDEOS, exist_ok=True)
-
 from services.filmes_service import FilmesService
 from utils.flash import FlashManager
 
@@ -35,7 +21,6 @@ class FilmeController(BaseController):
         self.setup_routes()
         self.pessoas_service = PessoasService()
         self.filmes_service = FilmesService()
-        self.filmes_service = FilmesService()
 
     def setup_routes(self):
         self.app.route('/filmes/store', method=['GET', 'POST'], callback=self.index_store)
@@ -44,29 +29,16 @@ class FilmeController(BaseController):
         flash = FlashManager()
 
         session = request.environ.get('beaker.session')
-        id_pessoa = session.get('user_id')
-        pessoa = self.pessoas_service.get_by_id(db, id_pessoa)
+        id_pessoa_adm = session.get('user_id')
+        verificaAdm = self.pessoas_service.get_administrador_by_id(db, id_pessoa_adm)
 
         errors, success_message, form_data = flash.get_flash_messages()
 
-        if not pessoa:
+        if not verificaAdm:
             flash.set_flash_errors_and_data({"geral": "Usuário não encontrado."}, {})
             return redirect('/pessoas/logout')
 
-        self.app.route('/filmes/store', method=['GET', 'POST'], callback=self.index_store)
-
-    def index_store(self, db):
-        flash = FlashManager()
-
-        session = request.environ.get('beaker.session')
-        id_pessoa = session.get('user_id')
-        pessoa = self.pessoas_service.get_by_id(db, id_pessoa)
-
-        errors, success_message, form_data = flash.get_flash_messages()
-
-        if not pessoa:
-            flash.set_flash_errors_and_data({"geral": "Usuário não encontrado."}, {})
-            return redirect('/pessoas/logout')
+        pessoa = self.pessoas_service.get_by_id(db, id_pessoa_adm)
 
         if request.method == 'GET':
             return self.render('criaFilmes', 
@@ -76,26 +48,23 @@ class FilmeController(BaseController):
                                 pathStatus= 'LI', 
                                 action = "/filmes/store", 
                                 user=pessoa,
-                                data=form_data) //passar aqui depois
+                                data=form_data)
         else:
-
             errors = {}
             form_data = {}
             
             titulo = request.forms.get('titulo', '').strip()
             categoria = request.forms.get('categoria', '').strip()
             data_exibicao_str = request.forms.get('data_exibicao', '').strip()
+            sinopse = request.forms.get('sinopse', '').strip()
+            diretor = request.forms.get('diretor', '').strip()
 
             form_data = {
                 'titulo': titulo,
                 'categoria': categoria,
-                'data_exibicao': data_exibicao_str
+                'sinopse': sinopse, 
+                'diretor': diretor
             }
-            
-            if not titulo:
-                errors['titulo'] = "O título é obrigatório."
-            if not categoria or categoria == 'Selecione uma categoria':
-                errors['categoria'] = "A categoria é obrigatória."
             
             capa_upload = request.files.get('capa')
             video_upload = request.files.get('arquivo_video')
@@ -158,19 +127,20 @@ class FilmeController(BaseController):
                 'status': status,
                 'capa_path': capa_path.replace(os.path.sep, '/'), 
                 'video_path': video_path.replace(os.path.sep, '/'),
-                'id_usuario': id_pessoa
+                'id_administrador': id_pessoa_adm,
+                'sinopse': sinopse,
+                'diretor': diretor
             }
-            
-            try:
-                self.filmes_service.add_filme(db, filme_data)
-                flash.set_flash_success({"Sucesso": "Filme registrado com sucesso! Status: " + status}, {})
-                return redirect('/filmes/lista') 
-            except Exception as e:
-                print(f"Erro no BD ao inserir filme: {e}")
-                
+    
+            result = self.filmes_service.add_filme(db, filme_data)
+
+            if result['success']:
+                flash.set_flash_success(["Filme registrado com sucesso!"])
+                return redirect('/filmes/store')
+            else:
+                errors_filme = result.get('errors')
+                flash.set_flash_errors_and_data(errors_filme, form_data)
                 if os.path.exists(capa_path): os.remove(capa_path)
                 if os.path.exists(video_path): os.remove(video_path)
+                return redirect('/filmes/store') 
                 
-                errors['geral'] = 'Erro ao registrar filme no banco. Tente novamente.'
-                flash.set_flash_errors_and_data(errors, form_data)
-                return redirect('/filmes/store')
