@@ -1,7 +1,11 @@
 import os
 import uuid # Para gerar nomes de arquivos únicos
 from datetime import datetime
+import os
+import uuid # Para gerar nomes de arquivos únicos
+from datetime import datetime
 from .base_controller import BaseController
+from bottle import request, redirect, Bottle
 from bottle import request, redirect, Bottle
 from services.pessoas_service import PessoasService
 from services.filmes_service import FilmesService
@@ -14,13 +18,25 @@ UPLOAD_DIR_VIDEOS = 'static/uploads/videos/'
 os.makedirs(UPLOAD_DIR_CAPAS, exist_ok=True)
 os.makedirs(UPLOAD_DIR_VIDEOS, exist_ok=True)
 
+from services.filmes_service import FilmesService
+from utils.flash import FlashManager
 
+
+UPLOAD_DIR_CAPAS = 'static/uploads/capas/'
+UPLOAD_DIR_VIDEOS = 'static/uploads/videos/'
+
+os.makedirs(UPLOAD_DIR_CAPAS, exist_ok=True)
+os.makedirs(UPLOAD_DIR_VIDEOS, exist_ok=True)
+
+
+class FilmeController(BaseController):
 class FilmeController(BaseController):
     def __init__(self, app):
         super().__init__(app)
 
         self.setup_routes()
         self.pessoas_service = PessoasService()
+        self.filmes_service = FilmesService()
         self.filmes_service = FilmesService()
 
     def setup_routes(self):
@@ -39,7 +55,31 @@ class FilmeController(BaseController):
             flash.set_flash_errors_and_data({"geral": "Usuário não encontrado."}, {})
             return redirect('/pessoas/logout')
 
+        self.app.route('/filmes/store', method=['GET', 'POST'], callback=self.index_store)
+
+    def index_store(self, db):
+        flash = FlashManager()
+
+        session = request.environ.get('beaker.session')
+        id_pessoa = session.get('user_id')
+        pessoa = self.pessoas_service.get_by_id(db, id_pessoa)
+
+        errors, success_message, form_data = flash.get_flash_messages()
+
+        if not pessoa:
+            flash.set_flash_errors_and_data({"geral": "Usuário não encontrado."}, {})
+            return redirect('/pessoas/logout')
+
         if request.method == 'GET':
+            return self.render('criaFilmes', 
+                                path="logado", 
+                                errors=errors, 
+                                success=success_message, 
+                                pathStatus= 'LI', 
+                                action = "/filmes/store", 
+                                user=pessoa,
+                                data=form_data) //passar aqui depois
+
             return self.render('criaFilmes', 
                                 path="logado", 
                                 errors=errors, 

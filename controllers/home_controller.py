@@ -21,4 +21,3 @@ class HomeController(BaseController):
             return self.render('homeComLogin', path = "naoLogado", pathStatus = 'I', user=False)
         else:
             return
-   
