@@ -30,7 +30,7 @@
         % include('includes/messagesError.tpl')
 
         <button type="submit" class="botao" id="cadastroBtn">CADASTRAR</button>
-        <a class="underline link" style="margin-bottom: 10px;" href="/login/index">Já possuo conta!</a>
+        <a class="underline link" style="margin-bottom: 10px;" href="/pessoas/login">Já possuo conta!</a>
     </form>
 </section>
 

@@ -18,5 +18,5 @@ class Config:
     DB_USER = 'root'
     DB_PASS = 'eqwefuijqiuofoiujqwfoijqwf-=--=c´çççqwedijiq9wi1ééé'
     DB_NAME = 'Cinema'
-    DB_HOST = '192.168.1.27'
+    DB_HOST = '172.29.12.36'
     DB_PORT = 3306

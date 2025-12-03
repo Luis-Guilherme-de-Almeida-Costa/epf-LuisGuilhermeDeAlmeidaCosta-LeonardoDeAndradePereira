@@ -35,7 +35,7 @@
                 </div>
             % end
         % else:
-            <p>Nenhum livro encontrado.</p>
+            <p>Nenhum filme encontrado.</p>
         % end
 
     </div>

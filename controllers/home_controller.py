@@ -74,7 +74,7 @@ class HomeController(BaseController):
         return self.render(
             'leitura',
             path="logado",
-            pathStatus="L",
+            pathStatus="LI",
             user=pessoa,
             adm=adm,
             filmes=filme
@@ -97,7 +97,7 @@ class HomeController(BaseController):
         return self.render(
             'videoPlayer',
             path="logado",
-            pathStatus="L",
+            pathStatus="LI",
             user=pessoa,
             adm=adm,
             filmes=filme,

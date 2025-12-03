@@ -5,6 +5,7 @@ from .base_controller import BaseController
 from bottle import request, redirect, Bottle
 from services.pessoas_service import PessoasService
 from services.filmes_service import FilmesService
+from services.administrador_service import AdministradorService
 from utils.flash import FlashManager
 from utils.verificarAdm import VerificarAdm
 from datetime import datetime, timedelta
@@ -23,6 +24,7 @@ class FilmeController(BaseController):
         self.pessoas_service = PessoasService()
         self.filmes_service = FilmesService()
         self.verificar_adm = VerificarAdm()
+        self.administrador_service = AdministradorService()
         
 
     def setup_routes(self):
@@ -36,7 +38,8 @@ class FilmeController(BaseController):
         session = request.environ.get('beaker.session')
         id_pessoa_adm = session.get('user_id')
         verificaAdm = self.pessoas_service.get_administrador_by_id(db, id_pessoa_adm)
-
+        id_administrador_dict = self.administrador_service.get_by_id_pessoa(db, id_pessoa_adm)
+        id_administrador = id_administrador_dict['id_administrador']
         errors, success_message, form_data = flash.get_flash_messages()
 
         if not verificaAdm:
@@ -139,7 +142,7 @@ class FilmeController(BaseController):
                 'status': status,
                 'capa_path': capa_path.replace(os.path.sep, '/'), 
                 'video_path': video_path.replace(os.path.sep, '/'),
-                'id_administrador': id_pessoa_adm,
+                'id_administrador': id_administrador,
                 'sinopse': sinopse,
                 'diretor': diretor
             }

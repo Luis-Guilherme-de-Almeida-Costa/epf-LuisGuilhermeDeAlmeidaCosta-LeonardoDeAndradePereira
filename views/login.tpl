@@ -29,7 +29,7 @@
            Cadastre-se
         </a>
 
-        <p>© 2025 - L&M</p>
+        <p>© 2025 - C&M</p>
     </form>
 </section>
 

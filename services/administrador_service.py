@@ -9,6 +9,9 @@ class AdministradorService:
 
     def get_all(self, db):
         return self.administrador_model.get_all(db)
+    
+    def get_by_id_pessoa(self, db, id_pessoa):
+        return self.administrador_model.get_by_id_pessoa(db, id_pessoa)
 
     def save(self, db, id_pessoa):
 

@@ -1,4 +1,4 @@
-/* Estilos Básicos para a Tabela */
+
 .titulo-IU {
     justify-content: none;
     align-items: none;
@@ -28,7 +28,7 @@
 }
 .user-table th {
     background-color: #1a1a1a;
-    color: #00bcd4; /* Cor azul de destaque */
+    color: #00bcd4;
     font-weight: bold;
     text-transform: uppercase;
 }
@@ -36,7 +36,7 @@
     background-color: #383838;
 }
 
-/* Estilos dos Botões de Ação */
+
 .botao-action {
     padding: 8px 12px;
     border: none;
@@ -49,7 +49,7 @@
     text-align: center;
 }
 .promote-admin {
-    background-color: #00bcd4; /* Azul de destaque */
+    background-color: #00bcd4;
     color: #1a1a1a;
 }
 .promote-admin:hover {
@@ -67,7 +67,7 @@
 .status-user {
     color: #aaa;
 }
-/* Responsividade */
+
 @media (max-width: 768px) {
     .user-table th, .user-table td {
         padding: 8px 10px;

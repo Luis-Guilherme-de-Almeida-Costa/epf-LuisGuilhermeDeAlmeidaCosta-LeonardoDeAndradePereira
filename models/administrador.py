@@ -20,6 +20,15 @@ class AdministradorModel:
             print(f"Erro ao buscar pessoas: {e}")
             return []
 
+    def get_by_id_pessoa(self, db, id_pessoa):
+        try:
+            cursor = db.cursor(dictionary=True)
+            cursor.execute("SELECT id_administrador FROM administrador WHERE id_pessoa = %s", (id_pessoa,))
+            return cursor.fetchone()
+        except Exception as e:
+            print(f"Erro ao buscar administrador com ID {id_pessoa}: {e}")
+            return None
+
     def add_administrador(self, db, id_pessoa):
         try:
             cursor = db.cursor()

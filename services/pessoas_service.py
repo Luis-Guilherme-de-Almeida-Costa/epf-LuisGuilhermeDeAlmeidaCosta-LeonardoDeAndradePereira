@@ -59,6 +59,7 @@ class PessoasService:
         senha = request.forms.get('senha')
         confirmarSenha = request.forms.get('confirmarSenha')
         
+        self.validate_fields.verificarNome(name)
         self.validate_fields.verificarEmail(email)
         self.validate_fields.verificarSenha(senha)
         self.validate_fields.verificaCpf(cpf)
