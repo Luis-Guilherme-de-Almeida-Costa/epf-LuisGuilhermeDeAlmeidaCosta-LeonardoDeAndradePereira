@@ -1,4 +1,4 @@
-# Projeto Template: POO com Python + Bottle + JSON
+C&M
 
 Este é um projeto de template educacional voltado para o ensino de **Programação Orientada a Objetos (POO)** do Prof. Lucas Boaventura, Universidade de Brasília (UnB).
 
@@ -6,7 +6,7 @@ Utiliza o microframework **Bottle**. Ideal para uso em disciplinas introdutória
 
 ## 💡 Objetivo
 
-Fornecer uma base simples, extensível e didática para construção de aplicações web orientadas a objetos com aplicações WEB em Python, ideal para trabalhos finais ou exercícios práticos.
+  O sistema C&M é uma plataforma para visualizar títulos de conteúdos digitais, neste caso, filmes enviados pelos administradores do website. Será possível utilizar funcionalidades como a busca inteligente por títulos e a visualização dos conteúdos desejados no horário em que forem lançados.
 
 ---
 
@@ -17,14 +17,19 @@ poo-python-bottle-template/
 ├── app.py # Ponto de entrada do sistema
 ├── config.py # Configurações e caminhos do projeto
 ├── main.py # Inicialização da aplicação
+├── mysql_plugin.py # Realiza a conexao com o banco de dados
 ├── requirements.txt # Dependências do projeto
 ├── README.md # Este arquivo
 ├── controllers/ # Controladores e rotas
+├── plugins/ # Arquivo para interceptar controllers antes de sua execução
+├── services/ # Services
+├── sessions/ # Pasta que guarda as sessions dos usuarios do beaker
 ├── models/ # Definição das entidades (ex: User)
 ├── services/ # Lógica de persistência (JSON)
 ├── views/ # Arquivos HTML (Bottle Templating)
-├── static/ # CSS, JS e imagens
-├── data/ # Arquivos JSON de dados
+├── ├── includes # arquivos que aparecem em diversas paginas
+├── static/ # CSS, Images, modules, main.js uploads
+├── utils/ # Arquivos para auxiliar no desenvolvimento. (ex: validar, verificarAdm, flash)
 └── .vscode/ # Configurações opcionais do VS Code
 ```
 
@@ -37,30 +42,70 @@ poo-python-bottle-template/
 Contém as classes responsáveis por lidar com as rotas da aplicação. Exemplos:
 - `user_controller.py`: rotas para listagem, adição, edição e remoção de usuários.
 - `base_controller.py`: classe base com utilitários comuns.
-
+- `filme_controller.py`: classe responsável pela inserção e listagem de filmes.
+- `home_controller.py`: classe responsável pela listagem das páginas principais.
+- `administrador_controller`: classe responsável pela listagem e adição de administradores.
 ### `models/`
 Define as classes que representam os dados da aplicação. Exemplo:
 - `user.py`: classe `User`, com atributos como `id`, `name`, `email`, etc.
+- `filmes.py`: classe `Filmes`, com atributos como `id`, `titulo`, `categoria`, `data_exibicao`, `status`, `capa_path`, `video_path`, `id_administrador`, `created_at` e 
+`updated_at`.
+- `administrador.py`: classe `AdministradorModel`, com funções como `get_all`, `get_by_id_pessoa`, `add_administrador`.
+- `pessoas.py`: classe `Pessoas`, com atributos como `name`, `email`, `cpf`, `situacao`, `senha`.
 
 ### `services/`
 Responsável por salvar, carregar e manipular dados usando arquivos JSON. Exemplo:
+- `administrador_service.py`: contém métodos como `get_all`, `get_by_id_pessoa`, `save`.
+- `filmes_service.py`: contém métodos como `get_all`, `get_by_id`, `get_by_category`, `get_by_name`, `add_filme`, `dalete_filme`, `_remove_file`.
+- `pessoas_service.py`: contém métodos como `get_all`, `get_by_id`, `get_administrador_by_id`, `login`, `save`, `edit`, `logout`.
 - `user_service.py`: contém métodos como `get_all`, `add_user`, `delete_user`.
 
 ### `views/`
 Contém os arquivos `.tpl` utilizados pelo Bottle como páginas HTML:
-- `layout.tpl`: estrutura base com navegação e bloco `content`.
-- `users.tpl`: lista os usuários.
-- `user_form.tpl`: formulário para adicionar/editar usuário.
+  
+- `cadastro.tpl`: Formulário para criar usuário.
+- `cadastroAdm.tpl`: formulário para adicionar administrador.
+- `criaFIlmes.tpl`: formulário para criar filmes.
+- `editarPefil.tpl`: formulário para editar usuário.
+- `filmeRemover.tpl`: formulário para remover filmes.
+- `homeComLogin.tpl`: listagem dos livros e página principal.
+- `homeSemLogin.tpl`: página principal para pessoas que não estão logadas.
+- `leitura.tpl`: visualização do catalogo do filme.
+- `login.tpl`: formulário para adentrar no sistema.
+- `search.tpl`: formulário para buscar filmes.
+- `videoPlayer.tpl`: visualização do filme.
 
 ### `static/`
 Arquivos estáticos como:
+- `css/cadastroAdm.css`: estilos básicos.
+- `css/infoUsuario.css`: estilos básicos.
+- `css/pagamento.css`: estilos básicos.
+- `css/sobraBackground.css`: estilos básicos.
 - `css/style.css`: estilos básicos.
-- `js/main.js`: scripts JS opcionais.
-- `img/BottleLogo.png`: exemplo de imagem.
+- `css/styleAutenticacao.css`: estilos básicos.
+- `css/styleGeneral.css`: estilos básicos.
+- `css/styleLeitura.css`: estilos básicos.
+- `css/styleLogado.css`: estilos básicos.
+- `css/styleNaoLogado.css`: estilos básicos.
+- `css/styleSearch.css`: estilos básicos.
+- `css/styleFooter.css`: estilos básicos.
+- `css/videoPlayer.css`: estilos básicos.
+- `modules/atualizarNomePasta.js`: scripts JS para a inserção de filmes.
+- `modules/nav.js`: scripts JS para navbar responsiva.
+- `modules/playerVideo.js`: scripts JS essencial para a interação com o video.
+- `Images/*` Imagens utilizadas no website.
+- `uploads/capas` Pasta que guarda as capas dos sites.
+- `uploads/videos` Pasta que guarda os videos dos sites.
 
-### `data/`
-Armazena os arquivos `.json` que simulam o banco de dados:
-- `users.json`: onde os dados dos usuários são persistidos.
+### `utils/`
+Pasta utilizada no sistema inteiro para auxiliar no projeto:
+- `flash.py`: Guarda os sucessos e erros temporários.
+- `validate.py`: Valida os campos.
+- `verificarAdm.py`: Verifica se é adm e retorna true, false.
+
+### `plugins/`
+Pasta utilizada no sistema inteiro para auxiliar no controller:
+- `auth_redirect_plugin.py`: Gerencia permissão de entrada nas urls.
 
 ---
 
