@@ -11,18 +11,21 @@
             <label for="titulo"><h2>Título do Filme:</h2></label>
             <input type="text" class="inputs-IU" name="titulo" placeholder="Digite o título do filme" value="{{data.get('titulo', '')}}" required>
 
-            <label for="categoria"><h2>Categoria:</h2></label>
-            <select class="inputs-IU" name="categoria" required style="height: 50px; margin-bottom: 20px;">
-                <option value="" disabled % if not data.get('categoria'): selected % end>Selecione uma categoria</option>
-                <option value="Acao" % if data.get('categoria') == 'Acao': selected % end>Ação</option>
-                <option value="Aventura" % if data.get('categoria') == 'Aventura': selected % end>Aventura</option>
-                <option value="Comedia" % if data.get('categoria') == 'Comedia': selected % end>Comédia</option>
-                <option value="Drama" % if data.get('categoria') == 'Drama': selected % end>Drama</option>
-                <option value="Terror" % if data.get('categoria') == 'Terror': selected % end>Terror</option>
-                <option value="FiccaoCientifica" % if data.get('categoria') == 'FiccaoCientifica': selected % end>Ficção Científica</option>
-                <option value="Documentario" % if data.get('categoria') == 'Documentario': selected % end>Documentário</option>
-                <option value="Animacao" % if data.get('categoria') == 'Animacao': selected % end>Animação</option>
+            <label for="categoria"><h2>Categorias:</h2></label>
+            <select class="inputs-IU" name="categorias" multiple required style="height: 120px; margin-bottom: 20px;">
+                <option value="Acao">Ação</option>
+                <option value="Aventura">Aventura</option>
+                <option value="Comedia">Comédia</option>
+                <option value="Drama">Drama</option>
+                <option value="Terror">Terror</option>
+                <option value="FiccaoCientifica">Ficção Científica</option>
+                <option value="Documentario">Documentário</option>
+                <option value="Animacao">Animação</option>
             </select>
+
+            <p style="margin: 0; font-size:14px; color:#888">
+                (Segure CTRL para selecionar mais de uma categoria)
+            </p>
 
             <label for="diretor"><h2>Diretor:</h2></label>
             <input type="text" class="inputs-IU" name="diretor" placeholder="Digite o nome do diretor" value="{{data.get('diretor', '')}}" required>

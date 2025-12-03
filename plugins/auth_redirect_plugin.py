@@ -2,7 +2,7 @@ from bottle import route, request, redirect, HTTPResponse, install
 
 class AuthRedirectPlugin:
     def __init__(self):
-        self.forbidden_routes = ['/pessoas/add', '/pessoas/login']
+        self.forbidden_routes = ['/', '/pessoas/add', '/pessoas/login']
 
     def apply(self, callback, route):
         if route.rule in self.forbidden_routes:
@@ -11,7 +11,7 @@ class AuthRedirectPlugin:
                 
                 if session and session.get('logged_in'):
                     print(session.get('user_name'))
-                    return redirect('/')
+                    return redirect('/home')
                 
                 return callback(*args, **kwargs)
             return wrapper
@@ -19,7 +19,7 @@ class AuthRedirectPlugin:
     
 class LoginRequiredPlugin:
     def __init__(self):
-        self.protected_routes = ['/home', '/pessoas/edit', '/filmes/store']
+        self.protected_routes = ['/home', '/pessoas/edit', '/filmes/store', '/home/search']
 
     def apply(self, callback, route):
         if route.rule in self.protected_routes:

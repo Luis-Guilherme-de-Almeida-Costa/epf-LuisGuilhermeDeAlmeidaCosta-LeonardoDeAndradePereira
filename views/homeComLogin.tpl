@@ -1,5 +1,7 @@
 % include('includes/headerNaoLogado.tpl')
-
+<link rel="stylesheet" href="/static/css/styleGeneral.css">
+<link rel="stylesheet" href="/static/css/styleLogado.css">
+<link rel="stylesheet" href="/static/css/stylesFooter.css">
 % include('includes/nav.tpl')
 
 <section class="container">
@@ -7,7 +9,7 @@
         <div id="home">
             <h1><blue>Aproveite</blue> seu lugar <br/><blue>Ideal</blue></h1>
 
-            <form action="/home/search/index" id="form-search" method="GET">
+            <form action="/home/search" id="form-search" method="GET">
                 <div class="barra-pesquisa">
                     <input type="text" name="searchData" placeholder="Pesquise aqui..." />
                     <button type="submit">
@@ -21,7 +23,7 @@
 
 <section class="catalogo-container" id="catalogo">
     <div class="barra-pesquisa-container">
-        <form action="/home/search/index" id="form-search" method="GET">
+        <form action="/home/search" id="form-search" method="GET">
             <div class="barra-pesquisa">
                 <input type="text" name="searchData" placeholder="Pesquise aqui..." />
                 <button type="submit">
@@ -38,12 +40,12 @@
 
             % if filmes and len(filmes) > 0:
                 % for filme in filmes:
-                    <a href="/home/leitura/{{ filme.id_filme }}" class="link">
+                    <a href="/home/leitura/{{ filme['id_filmes'] }}" class="link">
                         <div class="item-catalogo">
                             <div class="imagem">
-                                <img src="http://localhost:3002/filmes/{{ filme.id_filme }}/capa" alt="Capa do filme" />
+                                <img src="{{filme['capa_path']}}" alt="Capa do filme" />
                             </div>
-                            <h2>{{ filme.titulo }}</h2>
+                            <h2>{{filme['titulo']}}</h2>
                         </div>
                     </a>
                 % end
@@ -61,12 +63,12 @@
 
             % if acao and len(acao) > 0:
                 % for filme in acao:
-                    <a href="/home/leitura/{{ filme.id_filme }}" class="link">
+                    <a href="/home/leitura/{{ filme['id_filmes'] }}" class="link">
                         <div class="item-catalogo">
                             <div class="imagem">
-                                <img src="http://localhost:3002/filmes/{{ filme.id_filme }}/capa" alt="Capa do filme" />
+                                <img src="{{filme['capa_path']}}" alt="Capa do filme" />
                             </div>
-                            <h2>{{ filme.titulo }}</h2>
+                            <h2>{{filme['titulo']}}</h2>
                         </div>
                     </a>
                 % end
@@ -76,30 +78,6 @@
 
         </div>
     </div>
-
-    <!-- SUA BIBLIOTECA -->
-    <div class="secao-catalogo">
-        <h1>Sua Biblioteca</h1>
-        <div class="scroll-horizontal">
-
-            % if favoritos and len(favoritos) > 0:
-                % for filme in favoritos:
-                    <a href="/home/leitura/{{ filme.id_filme }}" class="link">
-                        <div class="item-catalogo">
-                            <div class="imagem">
-                                <img src="http://localhost:3002/filmes/{{ filme.id_filme }}/capa" alt="Capa do filme" />
-                            </div>
-                            <h2>{{ filme.titulo }}</h2>
-                        </div>
-                    </a>
-                % end
-            % else:
-                <p>Nenhum filme encontrado.</p>
-            % end
-
-        </div>
-    </div>
-
 </section>
 
 % include('includes/footerComContato.tpl')

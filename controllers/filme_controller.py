@@ -8,6 +8,7 @@ from services.filmes_service import FilmesService
 from utils.flash import FlashManager
 
 
+
 UPLOAD_DIR_CAPAS = 'static/uploads/capas/'
 UPLOAD_DIR_VIDEOS = 'static/uploads/videos/'
 
@@ -21,6 +22,7 @@ class FilmeController(BaseController):
         self.setup_routes()
         self.pessoas_service = PessoasService()
         self.filmes_service = FilmesService()
+        
 
     def setup_routes(self):
         self.app.route('/filmes/store', method=['GET', 'POST'], callback=self.index_store)
@@ -47,6 +49,7 @@ class FilmeController(BaseController):
                                 success=success_message, 
                                 pathStatus= 'LI', 
                                 action = "/filmes/store", 
+                                adm = True,
                                 user=pessoa,
                                 data=form_data)
         else:
@@ -54,7 +57,8 @@ class FilmeController(BaseController):
             form_data = {}
             
             titulo = request.forms.get('titulo', '').strip()
-            categoria = request.forms.get('categoria', '').strip()
+            categorias_list = request.forms.getall('categorias')
+            categoria = ",".join(categorias_list)
             data_exibicao_str = request.forms.get('data_exibicao', '').strip()
             sinopse = request.forms.get('sinopse', '').strip()
             diretor = request.forms.get('diretor', '').strip()

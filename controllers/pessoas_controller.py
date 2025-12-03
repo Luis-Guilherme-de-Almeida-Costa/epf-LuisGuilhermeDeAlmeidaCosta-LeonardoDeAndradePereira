@@ -2,13 +2,14 @@ from bottle import Bottle, request, redirect # Importar 'redirect'
 from .base_controller import BaseController
 from services.pessoas_service import PessoasService
 from utils.flash import FlashManager
-
+from utils.verificarAdm import VerificarAdm
 class PessoasController(BaseController):
     def __init__(self, app):
         super().__init__(app)
 
         self.setup_routes()
         self.pessoas_service = PessoasService()
+        self.verificar_adm = VerificarAdm()
 
     def setup_routes(self):
         self.app.route('/pessoas/add', method=['GET', 'POST'], callback=self.add_pessoa)
@@ -29,6 +30,7 @@ class PessoasController(BaseController):
                 path="naoLogado", 
                 pathStatus='A', 
                 user=False, 
+                adm=False,
                 errors=errors,
                 data=form_data
             )
@@ -62,6 +64,7 @@ class PessoasController(BaseController):
                 path="naoLogado", 
                 pathStatus='A', 
                 user=False, 
+                adm=False,
                 errors=errors, 
                 data=form_data
             )
@@ -87,6 +90,8 @@ class PessoasController(BaseController):
 
         id_pessoa = session.get('user_id')
 
+        adm = self.verificar_adm.verificarAdm(db, id_pessoa)
+
         if request.method == 'GET':
             errors, success_message, form_data = flash.get_flash_messages()
 
@@ -102,6 +107,7 @@ class PessoasController(BaseController):
                 success=success_message,
                 path="logado",
                 user=pessoa,
+                adm=adm,
                 pathStatus= 'LI'
             )
 

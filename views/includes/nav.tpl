@@ -77,6 +77,13 @@
                     % end
                     <li class="divider none"></li>
                     <li><a href="/pessoas/edit"><i class="fa-solid fa-user" style="margin-right: 10px;"></i>Perfil</a></li>
+                    % if adm:
+                        <li>
+                            <a href="/filmes/store">
+                                <i class="fa-solid fa-user" style="margin-right: 10px;"></i>Criar Filmes
+                            </a>
+                        </li>
+                    % end
                     <li class="divider"></li>
                     <li><a href="/pessoas/logout"><i class="fa-solid fa-power-off" style="margin-right: 10px;"></i>Sair</a></li>
                 </ul>

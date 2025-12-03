@@ -25,6 +25,12 @@ class FilmesService:
             print(f"Erro no Service ao buscar filme por ID {filme_id}: {e}")
             return None
 
+    def get_by_category(self, db, category):
+        return self.filmes_model.get_by_category(db, category)
+
+    def get_by_name(self, db, title):
+        return self.filmes_model.get_by_name(db, title)
+    
     def validate_filme_data(self, titulo: str, categoria: str, diretor: str, sinopse: str) -> Dict[str, str]:
         errors = {}
 

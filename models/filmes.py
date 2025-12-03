@@ -86,7 +86,6 @@ class FilmesModel:
             return e
 
     def get_all(self, db):
-
         try:
             cursor = db.cursor(dictionary=True)
           
@@ -96,11 +95,42 @@ class FilmesModel:
             print(f"Erro ao buscar filmes: {e}")
             return []
 
-    def get_by_id(self, db, filme_id):
-
+    def get_by_category(self, db, category):
         try:
             cursor = db.cursor(dictionary=True)
-            cursor.execute(f"SELECT * FROM {self.table_name} WHERE id = %s", (filme_id,))
+            
+            sql = f"SELECT * FROM {self.table_name} WHERE categoria LIKE %s"
+            
+            search_term = f"%{category}%"
+        
+            cursor.execute(sql, (search_term,))
+            
+            return cursor.fetchall()
+            
+        except Exception as e:
+            print(f"Erro ao buscar filmes da categoria '{category}': {e}")
+            return []
+        
+    def get_by_name(self, db, title):
+        try:
+            cursor = db.cursor(dictionary=True)
+            
+            sql = f"SELECT * FROM {self.table_name} WHERE titulo LIKE %s"
+            
+            search_term = f"%{title}%"
+        
+            cursor.execute(sql, (search_term,))
+            
+            return cursor.fetchall()
+            
+        except Exception as e:
+            print(f"Erro ao buscar filmes da categoria '{category}': {e}")
+            return []
+        
+    def get_by_id(self, db, filme_id):
+        try:
+            cursor = db.cursor(dictionary=True)
+            cursor.execute(f"SELECT * FROM {self.table_name} WHERE id_filmes = %s", (filme_id,))
             return cursor.fetchone()
         except Exception as e:
             print(f"Erro ao buscar filme com ID {filme_id}: {e}")
