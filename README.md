@@ -75,6 +75,16 @@ Contém os arquivos `.tpl` utilizados pelo Bottle como páginas HTML:
 - `search.tpl`: formulário para buscar filmes.
 - `videoPlayer.tpl`: visualização do filme.
 
+### `views/includes`
+Contém os arquivos `.tpl` utilizados pelo Bottle como páginas HTML:
+  
+- `footerComContato.tpl`: Footer com o contato.
+- `footerSemContato.tpl`: Footer sem o contato.
+- `headerNaoLogado.tpl`: Header principal.
+- `messagesError.tpl`: Mensagem de erro.
+- `messagesSuccess.tpl`: Mensagem de sucesso.
+- `nav.tpl`: Navbar do site.
+
 ### `static/`
 Arquivos estáticos como:
 - `css/cadastroAdm.css`: estilos básicos.
