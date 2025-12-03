@@ -7,7 +7,7 @@ from services.pessoas_service import PessoasService
 from services.filmes_service import FilmesService
 from utils.flash import FlashManager
 from utils.verificarAdm import VerificarAdm
-
+from datetime import datetime, timedelta
 
 UPLOAD_DIR_CAPAS = 'static/uploads/capas/'
 UPLOAD_DIR_VIDEOS = 'static/uploads/videos/'
@@ -92,15 +92,20 @@ class FilmeController(BaseController):
 
             #agendamento
             data_exibicao = None
-            agora = datetime.now()
             status = 'ATIVO'
             
             if data_exibicao_str:
                 try:
                     data_exibicao = datetime.strptime(data_exibicao_str, '%Y-%m-%dT%H:%M')
                     
-                    if data_exibicao > agora:
+                    agora_com_margem = datetime.now() + timedelta(seconds=5)
+
+                    if data_exibicao > agora_com_margem:
                         status = 'AGENDADO'
+                    elif data_exibicao <= agora_com_margem:
+                        errors['data_exibicao'] = "A data e hora de exibição deve ser estritamente no futuro (mínimo 5 segundos de margem)."
+                        flash.set_flash_errors_and_data(errors, form_data)
+                        return redirect('/filmes/store')
                     
                 except ValueError:
                     errors['data_exibicao'] = "Formato de data e hora inválido."

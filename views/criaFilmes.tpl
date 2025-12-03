@@ -38,7 +38,7 @@
             <p style="margin: 0px">Caso nenhum horário seja selecionado o filme será anunciado imediatamente!</p>
 
             <label for="capa"><h2 style="margin-bottom: 0px">Capa do Filme (JPG/PNG):</h2></label>
-            <p style="margin-bottom: 10px; margin-top: 3px">O tamanho deve ser !</p>
+            <p style="margin-bottom: 10px; margin-top: 3px">O tamanho deve ser 180wx240h!</p>
             <div class="file-upload-wrapper">
                 <input type="file" class="inputs-IU file-input" name="capa" id="input-capa" accept="image/jpeg, image/png" required>
                 
