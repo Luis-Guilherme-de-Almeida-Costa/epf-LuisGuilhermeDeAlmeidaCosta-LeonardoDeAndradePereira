@@ -78,6 +78,50 @@
 
         </div>
     </div>
+
+    <div class="secao-catalogo">
+        <h1>Drama</h1>
+        <div class="scroll-horizontal">
+
+            % if drama and len(drama) > 0:
+                % for filme in drama:
+                    <a href="/home/leitura/{{ filme['id_filmes'] }}" class="link">
+                        <div class="item-catalogo">
+                            <div class="imagem">
+                                <img src="{{filme['capa_path']}}" alt="Capa do filme" />
+                            </div>
+                            <h2>{{filme['titulo']}}</h2>
+                        </div>
+                    </a>
+                % end
+            % else:
+                <p>Nenhum filme encontrado.</p>
+            % end
+
+        </div>
+    </div>
+    
+    <div class="secao-catalogo">
+        <h1>Terror</h1>
+        <div class="scroll-horizontal">
+
+            % if terror and len(terror) > 0:
+                % for filme in terror:
+                    <a href="/home/leitura/{{ filme['id_filmes'] }}" class="link">
+                        <div class="item-catalogo">
+                            <div class="imagem">
+                                <img src="{{filme['capa_path']}}" alt="Capa do filme" />
+                            </div>
+                            <h2>{{filme['titulo']}}</h2>
+                        </div>
+                    </a>
+                % end
+            % else:
+                <p>Nenhum filme encontrado.</p>
+            % end
+
+        </div>
+    </div>
 </section>
 
 % include('includes/footerComContato.tpl')

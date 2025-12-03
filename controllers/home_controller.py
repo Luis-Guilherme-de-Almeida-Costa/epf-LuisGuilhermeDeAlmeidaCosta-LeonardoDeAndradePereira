@@ -25,6 +25,8 @@ class HomeController(BaseController):
     def index_home(self, db):
 
         acao = self.filmes_service.get_by_category(db, "Ação")
+        drama = self.filmes_service.get_by_category(db, "Drama")
+        terror = self.filmes_service.get_by_category(db, "Terror")
 
         filme = self.filmes_service.get_all(db)
 
@@ -36,7 +38,7 @@ class HomeController(BaseController):
 
         adm = self.verificar_adm.verificarAdm(db, id_pessoa)
 
-        return self.render('homeComLogin', path = "logado", pathStatus = 'L', filmes = filme, user=pessoa, adm = adm, acao = acao, favoritos = None)
+        return self.render('homeComLogin', path = "logado", pathStatus = 'L', filmes = filme, user=pessoa, adm = adm, acao = acao, drama = drama, terror = terror, favoritos = None)
         
     def index_search(self, db):
         search_data = request.query.get('searchData')
