@@ -24,7 +24,7 @@ class PessoasModel:
     def get_all(self, db):
         try:
             cursor = db.cursor(dictionary=True)
-            cursor.execute("SELECT id_pessoa, name, email, cpf, situacao, senha_hash FROM pessoas")
+            cursor.execute("SELECT id_pessoa, nome, email, cpf, situacao FROM pessoas")
             return cursor.fetchall()
         except Exception as e:
             print(f"Erro ao buscar pessoas: {e}")

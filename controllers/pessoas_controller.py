@@ -89,7 +89,7 @@ class PessoasController(BaseController):
         session = request.environ.get('beaker.session')
 
         id_pessoa = session.get('user_id')
-
+        
         adm = self.verificar_adm.verificarAdm(db, id_pessoa)
 
         if request.method == 'GET':
@@ -113,7 +113,8 @@ class PessoasController(BaseController):
 
         else:
             current_data = {}
-            result = self.pessoas_service.edit(db, id_pessoa)
+            pessoa = self.pessoas_service.get_by_id(db, id_pessoa)
+            result = self.pessoas_service.edit(db, id_pessoa, pessoa['cpf'])
 
             if result["success"]:
                 flash.set_flash_success(["Usuário atualizado com sucesso!"])

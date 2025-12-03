@@ -33,7 +33,6 @@ class Filmes:
         return f"<Filme {self.titulo} (ID: {self.id or 'Novo'}) - Status: {self.status}>"
 
     def to_dict(self):
-
         return {
             'id': self.id,
             'titulo': self.titulo,
@@ -47,12 +46,24 @@ class Filmes:
             'updated_at': self.updated_at
         }
 
-
-
 class FilmesModel:
     
     def __init__(self):
         self.table_name = 'filmes'
+
+    def delete_filme(self, db, filme_id):
+        filme_data = self.get_by_id(db, filme_id)
+        try:
+            cursor = db.cursor()
+            sql = f"DELETE FROM {self.table_name} WHERE id_filmes = %s"
+            
+            cursor.execute(sql, (filme_id,))
+            db.commit()
+            return (cursor.rowcount, filme_data['capa_path'], filme_data['video_path']) 
+        except Exception as e:
+            db.rollback()
+            print(f"Erro ao deletar filme com ID {filme_id}: {e}")
+            return 0
 
     def insert_filme(self, db, filme: Filmes):
    

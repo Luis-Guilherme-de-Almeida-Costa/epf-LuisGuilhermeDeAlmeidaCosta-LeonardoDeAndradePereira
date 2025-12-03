@@ -80,7 +80,17 @@
                     % if adm:
                         <li>
                             <a href="/filmes/store">
-                                <i class="fa-solid fa-user" style="margin-right: 10px;"></i>Criar Filmes
+                                <i class="fa-solid fa-film" style="margin-right: 10px;"></i>Criar Filmes
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/filmes/remove">
+                                <i class="fa-solid fa-film" style="margin-right: 10px;"></i>Remover Filmes
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/adm/index">
+                                <i class="fa-solid fa-user" style="margin-right: 10px;"></i>Cadastrar Administrador
                             </a>
                         </li>
                     % end

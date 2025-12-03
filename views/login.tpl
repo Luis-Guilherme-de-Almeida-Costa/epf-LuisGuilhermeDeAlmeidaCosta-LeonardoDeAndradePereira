@@ -24,7 +24,7 @@
         <button type="submit" class="botao" id="loginBtn">Entrar</button>
 
         <p style="margin-top: 10px; margin-bottom: 0px;">Ainda não possui uma conta?</p>
-        <a href="/register/index" class="link"
+        <a href="/pessoas/add" class="link"
            style="text-align: center; text-decoration: underline; font-size: 14px;">
            Cadastre-se
         </a>

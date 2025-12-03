@@ -1,0 +1,80 @@
+/* Estilos Básicos para a Tabela */
+.titulo-IU {
+    justify-content: none;
+    align-items: none;
+    height: auto;
+    margin: none;
+    margin-top: none
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    background-color: #2a2a2a;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+.user-table th, .user-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #444;
+    font-size: 14px;
+    color: #ddd;
+}
+.user-table th {
+    background-color: #1a1a1a;
+    color: #00bcd4; /* Cor azul de destaque */
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.user-table tbody tr:hover {
+    background-color: #383838;
+}
+
+/* Estilos dos Botões de Ação */
+.botao-action {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    font-size: 13px;
+    width: 100%;
+    text-align: center;
+}
+.promote-admin {
+    background-color: #00bcd4; /* Azul de destaque */
+    color: #1a1a1a;
+}
+.promote-admin:hover {
+    background-color: #00a4b3;
+}
+.remove-admin {
+    background-color: #555;
+    color: #bbb;
+    cursor: default;
+}
+.status-admin {
+    color: #00bcd4;
+    font-weight: bold;
+}
+.status-user {
+    color: #aaa;
+}
+/* Responsividade */
+@media (max-width: 768px) {
+    .user-table th, .user-table td {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+    .botao-action {
+        padding: 6px 8px;
+        font-size: 11px;
+    }
+}

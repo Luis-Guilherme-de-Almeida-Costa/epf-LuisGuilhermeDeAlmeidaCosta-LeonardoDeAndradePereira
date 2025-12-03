@@ -1,10 +1,11 @@
 from bottle import request, redirect
 from models.pessoas import PessoasModel, Pessoas
+from utils.validate import ValidateFields
 import bcrypt
-from validators import email as validate_email, length, ValidationError
 class PessoasService:
     def __init__(self):
         self.pessoa_model = PessoasModel()
+        self.validate_fields = ValidateFields()
 
     def get_all(self, db):
         return self.pessoa_model.get_all(db)
@@ -14,32 +15,21 @@ class PessoasService:
 
     def get_administrador_by_id(self, db, pessoa_id):
         return self.pessoa_model.get_administrador_by_id(db, pessoa_id)
-    
-    def validate_fields(self, email, senha):
-        errors = {}
-
-        try:
-            if not validate_email(email):
-                errors['email'] = "Email inválido."
-        except ValidationError:
-            errors['email'] = "Email em formato inválido."
-
-        try:
-            length(senha, min=6)
-        except ValidationError:
-            errors['senha'] = "Senha deve ter pelo menos 6 caracteres."
-
-        return errors
 
     def login(self, db):
         try:
             email = request.forms.get('email')
             senha = request.forms.get('senha')
 
-            errors = self.validate_fields(email, senha)
+            self.validate_fields.verificarEmail(email)
+            self.validate_fields.verificarSenha(senha)
 
+            errors = self.validate_fields.errors
+            
             if errors:
-                return {'success': False, 'errors': errors}
+                errors_to_return = errors
+                self.validate_fields.errors = {}
+                return {'success': False, 'errors': errors_to_return}
 
             user = self.pessoa_model.get_by_email(db, email)
             if not user:
@@ -69,10 +59,17 @@ class PessoasService:
         senha = request.forms.get('senha')
         confirmarSenha = request.forms.get('confirmarSenha')
         
-        errors = {}
+        self.validate_fields.verificarEmail(email)
+        self.validate_fields.verificarSenha(senha)
+        self.validate_fields.verificaCpf(cpf)
 
-        errors.update(self.validate_fields(email, senha))
-        
+        verificaCpfRepetido = self.pessoa_model.get_all(db)
+
+        errors = self.validate_fields.errors
+        for i in verificaCpfRepetido:     
+            if(i['cpf'] == cpf):
+                errors['CpfRepetido'] = "Esse cpf já foi utilizado!"
+
         if senha != confirmarSenha:
             errors['confirmarSenha'] = 'As senhas não coincidem!' 
 
@@ -81,7 +78,9 @@ class PessoasService:
             errors['email'] = 'Email já cadastrado!' 
 
         if errors:
-            return {'success': False, 'error': errors} 
+            errors_to_return = errors
+            self.validate_fields.errors = {}
+            return {'success': False, 'error': errors_to_return} 
         
         senha_hash = bcrypt.hashpw(senha.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
@@ -93,8 +92,9 @@ class PessoasService:
 
         return {'success': True, 'id': novo_id}
     
-    def edit(self, db, pessoa_id):
+    def edit(self, db, pessoa_id, cpf_user):
         try:
+
             nome = request.forms.get('nome', '').strip()
             email = request.forms.get('email', '').strip()
             cpf = request.forms.get('cpf', '').strip()
@@ -105,14 +105,15 @@ class PessoasService:
                 'cpf': cpf
             }
 
-            errors = {}
+            self.validate_fields.verificarNome(nome)
+            self.validate_fields.verificarEmail(email)
+            self.validate_fields.verificaCpf(cpf)
+            verificaCpfRepetido = self.pessoa_model.get_all(db)            
 
-            if not nome:
-                errors['nome'] = "O nome não pode estar vazio."
-            if not email:
-                errors['email'] = "O email não pode estar vazio."
-            if not cpf:
-                errors['cpf'] = "O CPF não pode estar vazio."
+            errors = self.validate_fields.errors
+            for i in verificaCpfRepetido:
+                if(i['cpf'] == cpf and i['cpf'] != cpf_user):
+                    errors['CpfRepetido'] = "Esse cpf já foi utilizado!"
 
             existing = self.pessoa_model.get_by_email(db, email)
             
@@ -120,11 +121,9 @@ class PessoasService:
                 errors['email'] = "Este email já está cadastrado em outra conta."
 
             if errors:
-                return {
-                    "success": False,
-                    "errors": errors,
-                    "data": current_data
-                }
+                errors_to_return = errors
+                self.validate_fields.errors = {}
+                return { "success": False, "errors": errors_to_return, "data": current_data }
 
             pessoa = self.pessoa_model.get_by_id(db, pessoa_id)
             if not pessoa:

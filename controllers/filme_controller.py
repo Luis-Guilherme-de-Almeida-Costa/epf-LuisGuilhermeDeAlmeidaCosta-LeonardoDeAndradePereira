@@ -6,7 +6,7 @@ from bottle import request, redirect, Bottle
 from services.pessoas_service import PessoasService
 from services.filmes_service import FilmesService
 from utils.flash import FlashManager
-
+from utils.verificarAdm import VerificarAdm
 
 
 UPLOAD_DIR_CAPAS = 'static/uploads/capas/'
@@ -22,10 +22,13 @@ class FilmeController(BaseController):
         self.setup_routes()
         self.pessoas_service = PessoasService()
         self.filmes_service = FilmesService()
+        self.verificar_adm = VerificarAdm()
         
 
     def setup_routes(self):
         self.app.route('/filmes/store', method=['GET', 'POST'], callback=self.index_store)
+        self.app.route('/filmes/remove', method=['GET'], callback=self.index_remove)
+        self.app.route('/filmes/remove/<id_filme>', method=['POST'], callback=self.remove)
 
     def index_store(self, db):
         flash = FlashManager()
@@ -147,4 +150,46 @@ class FilmeController(BaseController):
                 if os.path.exists(capa_path): os.remove(capa_path)
                 if os.path.exists(video_path): os.remove(video_path)
                 return redirect('/filmes/store') 
-                
+
+    def index_remove(self, db):
+        flash = FlashManager()
+
+        session = request.environ.get('beaker.session')
+
+        id_pessoa_adm = session.get('user_id')
+
+        user = self.pessoas_service.get_by_id(db, id_pessoa_adm)
+
+        adm = self.verificar_adm.verificarAdm(db, id_pessoa_adm)
+
+        filme_list = self.filmes_service.get_all(db)
+
+        if not adm:
+            return redirect("/home")
+    
+        errors, success_message, form_data = flash.get_flash_messages()
+
+        return self.render(
+            'filmeRemover', 
+            action="/adm/index", 
+            path="logado", 
+            pathStatus='L', 
+            user=user, 
+            adm=adm,
+            filmes=filme_list,
+            errors=errors,
+            success=success_message
+        )
+
+    def remove(self, db, id_filme):
+        flash = FlashManager()
+
+        result = self.filmes_service.delete_filme(db, id_filme)
+        
+        if result['success']:
+            flash.set_flash_success(["Filme removido com sucesso!"])
+            return redirect('/filmes/remove')
+        else:
+            errors = result.get("errors", {"geral": "Erro ao atualizar filmes."})
+            flash.set_flash_errors_and_data(errors, {})
+            return redirect('/filmes/remove')
