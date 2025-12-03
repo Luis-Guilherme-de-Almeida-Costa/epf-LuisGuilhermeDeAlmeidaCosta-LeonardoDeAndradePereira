@@ -98,7 +98,6 @@ class PessoasService:
             nome = request.forms.get('nome', '').strip()
             email = request.forms.get('email', '').strip()
             cpf = request.forms.get('cpf', '').strip()
-            
 
             current_data = {
                 'nome': nome,
