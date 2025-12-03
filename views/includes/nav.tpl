@@ -27,12 +27,10 @@
                 % if pathStatus == "A":
                     <li><a class="link navStatus" href="/">Home</a></li>
                     <li><a class="link navStatus" href="/">Sobre Nós</a></li>
-                    <li><a class="link navStatus" href="/">Preços</a></li>
                     <li><a class="link navStatus" href="/">Contatos</a></li>
                 % elif pathStatus == "I":
                     <li><a class="link navStatus" href="/">Home</a></li>
                     <li><a class="link navStatus" href="#sobre-nos">Sobre Nós</a></li>
-                    <li><a class="link navStatus" href="#precos">Preços</a></li>
                     <li><a class="link navStatus" href="#contatos">Contatos</a></li>
                 % end
             </ul>
@@ -66,12 +64,10 @@
                         % if pathStatus == "A":
                             <li class="none"><a href="/">Home</a></li>
                             <li class="none"><a href="/">Sobre Nós</a></li>
-                            <li class="none"><a href="/">Preços</a></li>
                             <li class="none"><a href="/">Contatos</a></li>
                         % else:
                             <li class="none"><a href="/">Home</a></li>
                             <li class="none"><a href="#sobre-nos">Sobre Nós</a></li>
-                            <li class="none"><a href="#precos">Preços</a></li>
                             <li class="none"><a href="#contatos">Contatos</a></li>
                         % end
                     % end
@@ -111,12 +107,10 @@
                     % if path == "A":
                         <li class="none"><a href="/">Home</a></li>
                         <li class="none"><a href="/">Sobre Nós</a></li>
-                        <li class="none"><a href="/">Preços</a></li>
                         <li class="none"><a href="/">Contatos</a></li>
                     % else:
                         <li class="none"><a href="/">Home</a></li>
                         <li class="none"><a href="#sobre-nos">Sobre Nós</a></li>
-                        <li class="none"><a href="#precos">Preços</a></li>
                         <li class="none"><a href="#contatos">Contatos</a></li>
                     % end
                 % end
