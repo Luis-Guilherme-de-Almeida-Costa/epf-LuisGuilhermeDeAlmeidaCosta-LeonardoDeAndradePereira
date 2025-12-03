@@ -8,7 +8,7 @@
         <video id="customVideo" src="/{{video_path}}" class="video-element"></video>
 
         <div class="controls">
-            <button id="playPauseBtn">▶️</button>
+            <button id="playPauseBtn"><img src="/static/Images/play.png" width=30/></button>
 
             <input type="range" id="seekBar" value="0" min="0" max="100">
 
@@ -16,9 +16,9 @@
             <span id="totalTime">0:00</span>
 
             <input type="range" id="volumeBar" min="0" max="1" step="0.01" value="1">
-            <button id="muteBtn">🔊</button>
+            <button id="muteBtn"><img src="/static/Images/headset.png" width=30/></button>
 
-            <button id="fullscreenBtn">⛶</button>
+            <button id="fullscreenBtn"><img src="/static/Images/fullscreen.png" width=30/></button>
         </div>
     </div>
 </div>

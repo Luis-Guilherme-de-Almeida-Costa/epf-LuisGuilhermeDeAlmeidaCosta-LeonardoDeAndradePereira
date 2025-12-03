@@ -19,7 +19,7 @@ class AuthRedirectPlugin:
     
 class LoginRequiredPlugin:
     def __init__(self):
-        self.protected_routes = ['/home', '/pessoas/edit', '/filmes/store', '/home/search']
+        self.protected_routes = ['/home', '/pessoas/edit', '/filmes/store', '/home/search', '']
 
     def apply(self, callback, route):
         if route.rule in self.protected_routes:
